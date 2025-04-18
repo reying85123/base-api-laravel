@@ -1,0 +1,1284 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Laravel_API_Base 前台通用",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8000/client",
+            "description": "本機測試"
+        }
+    ],
+    "tags": [
+        {
+            "name": "系統登入"
+        },
+        {
+            "name": "平台參數"
+        },
+        {
+            "name": "檔案上傳"
+        },
+        {
+            "name": "縣市地區"
+        },
+        {
+            "name": "系統相關"
+        }
+    ],
+    "paths": {
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "系統登入"
+                ],
+                "summary": "人員登入",
+                "security": [],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "account": {
+                                        "type": "string",
+                                        "description": "帳號",
+                                        "example": "user"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "description": "密碼",
+                                        "example": "password"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/LoginToken"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/register": {
+            "post": {
+                "tags": [
+                    "系統登入"
+                ],
+                "summary": "人員註冊",
+                "security": [],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "account": {
+                                        "type": "string",
+                                        "description": "帳號",
+                                        "example": "user"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "description": "密碼",
+                                        "example": "12345678aA@"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "description": "姓名",
+                                        "example": "王小明"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "description": "電子信箱",
+                                        "example": "123@gmail.com.tw"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "description": "手機號碼",
+                                        "example": "0909354341"
+                                    },
+                                    "phone_country": {
+                                        "type": "string",
+                                        "description": "手機國碼",
+                                        "example": "TW"
+                                    },
+                                    "code": {
+                                        "type": "integer",
+                                        "description": "註冊驗證碼",
+                                        "example": 23212
+                                    },
+                                    "token": {
+                                        "type": "string",
+                                        "description": "註冊驗證碼token",
+                                        "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbGFyYXZlbC1iYXNlLWFwaS5sYS5zdWNjLndvcmsvY2xpZW50L2F1dGgvdmVyaWZ5X2NvZGUiLCJzdWIiOiIrODg2OTA5NzM5MzQxIiwibmJmIjoxNzEzNjc1NDUwLCJpYXQiOjE3MTM2NzU0NTAsImV4cCI6MTcxMzY3NTc1MCwianRpIjoibis5VlJsRGY5bzBReHhyK1M4NXdxWE1BaGlvSXFwdzAwSC9SSkcvMm1SOD0iLCJjb250YWN0Ijp7ImFjY291bnQiOm51bGwsImVtYWlsIjpudWxsLCJwaG9uZSI6Iis4ODY5MDk3MzkzNDEifX0.eQStHo6QFY8ozHWu-7Co2LnCvNZsebpspjdnodQQJNs"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/LoginToken"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/verify_code": {
+            "post": {
+                "tags": [
+                    "系統登入"
+                ],
+                "summary": "取得驗證碼",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "account": {
+                                        "type": "string",
+                                        "description": "帳號",
+                                        "example": "user"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "description": "電子信箱",
+                                        "example": "123@gmail.com.tw"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "description": "手機號碼",
+                                        "example": "0909354341"
+                                    },
+                                    "phone_country": {
+                                        "type": "string",
+                                        "description": "手機國碼",
+                                        "example": "TW"
+                                    },
+                                    "type": {
+                                        "$ref": "#/components/schemas/VerifyCodeTypeEnum"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/LoginToken"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/forget_password": {
+            "post": {
+                "tags": [
+                    "系統登入"
+                ],
+                "summary": "忘記密碼",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "code": {
+                                        "type": "integer",
+                                        "description": "忘記密碼驗證碼",
+                                        "example": 23212
+                                    },
+                                    "token": {
+                                        "type": "string",
+                                        "description": "忘記密碼驗證碼token",
+                                        "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbGFyYXZlbC1iYXNlLWFwaS5sYS5zdWNjLndvcmsvY2xpZW50L2F1dGgvdmVyaWZ5X2NvZGUiLCJzdWIiOiIrODg2OTA5NzM5MzQxIiwibmJmIjoxNzEzNjc1NDUwLCJpYXQiOjE3MTM2NzU0NTAsImV4cCI6MTcxMzY3NTc1MCwianRpIjoibis5VlJsRGY5bzBReHhyK1M4NXdxWE1BaGlvSXFwdzAwSC9SSkcvMm1SOD0iLCJjb250YWN0Ijp7ImFjY291bnQiOm51bGwsImVtYWlsIjpudWxsLCJwaG9uZSI6Iis4ODY5MDk3MzkzNDEifX0.eQStHo6QFY8ozHWu-7Co2LnCvNZsebpspjdnodQQJNs"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "description": "新密碼"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "成功，不回傳訊息"
+                    }
+                }
+            }
+        },
+        "/auth/refresh_token": {
+            "post": {
+                "tags": [
+                    "系統登入"
+                ],
+                "summary": "刷新登入Token",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "token": {
+                                        "type": "string",
+                                        "description": "登入Token"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/LoginToken"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/me": {
+            "get": {
+                "tags": [
+                    "系統登入"
+                ],
+                "summary": "取得登入者資訊",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/Profile"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "系統登入"
+                ],
+                "summary": "更新登入者資訊",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "人員名稱",
+                                        "example": "王小明"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "description": "信箱",
+                                        "example": "admin@admin.com"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "description": "手機號碼",
+                                        "example": "0912345678"
+                                    },
+                                    "passport": {
+                                        "type": "string",
+                                        "description": "身分證",
+                                        "example": "A123456789"
+                                    },
+                                    "sex": {
+                                        "$ref": "#/components/schemas/SexEnum"
+                                    },
+                                    "birthday": {
+                                        "type": "string",
+                                        "description": "生日",
+                                        "example": "1998/07/19"
+                                    },
+                                    "company_name": {
+                                        "type": "string",
+                                        "description": "公司名稱",
+                                        "example": "派派咖啡"
+                                    },
+                                    "uniform_numbers": {
+                                        "type": "string",
+                                        "description": "統一編號",
+                                        "example": "54670929"
+                                    },
+                                    "job": {
+                                        "type": "string",
+                                        "description": "職稱",
+                                        "example": "工程師"
+                                    },
+                                    "tel": {
+                                        "type": "string",
+                                        "description": "室內電話",
+                                        "example": "(06)53634655"
+                                    },
+                                    "post_code": {
+                                        "type": "string",
+                                        "description": "郵遞區號",
+                                        "example": "709"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "description": "地址",
+                                        "example": "台南市安南區00號"
+                                    },
+                                    "city": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "description": "縣市ID",
+                                                "example": 1
+                                            }
+                                        },
+                                        "required": [
+                                            "id"
+                                        ]
+                                    },
+                                    "area": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "description": "行政區ID",
+                                                "example": 1
+                                            }
+                                        },
+                                        "required": [
+                                            "id"
+                                        ]
+                                    },
+                                    "image": {
+                                        "$ref": "#/components/schemas/FileStorage"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/Profile"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/change_password": {
+            "post": {
+                "tags": [
+                    "系統登入"
+                ],
+                "summary": "修改登入者密碼",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "old_password": {
+                                        "type": "string",
+                                        "description": "舊密碼"
+                                    },
+                                    "new_password": {
+                                        "type": "string",
+                                        "description": "新密碼"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "成功，不回傳訊息"
+                    }
+                }
+            }
+        },
+        "/platform_attribute": {
+            "get": {
+                "tags": [
+                    "平台參數"
+                ],
+                "summary": "取得平台參數",
+                "parameters": [
+                    {
+                        "name": "key",
+                        "description": "平台Key搜尋",
+                        "in": "query",
+                        "required": false,
+                        "style": "form",
+                        "explode": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/PlatformAttribute"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/file/upload": {
+            "post": {
+                "tags": [
+                    "檔案上傳"
+                ],
+                "summary": "檔案上傳",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "description": "上傳檔案",
+                                        "format": "binary"
+                                    }
+                                },
+                                "required": [
+                                    "file"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/FileStorage"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/file/info/{fileUuid}": {
+            "parameters": [
+                {
+                    "name": "fileUuid",
+                    "description": "檔案UUID",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }
+            ],
+            "get": {
+                "tags": [
+                    "檔案上傳"
+                ],
+                "summary": "取得上傳的檔案",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/FileStorage"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/file/d/{fileUuid}": {
+            "servers": [
+                {
+                    "url": "http://127.0.0.1:8000",
+                    "description": "本機測試"
+                }
+            ],
+            "parameters": [
+                {
+                    "name": "fileUuid",
+                    "description": "檔案UUID",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }
+            ],
+            "get": {
+                "tags": [
+                    "檔案上傳"
+                ],
+                "summary": "檔案下載",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/city": {
+            "get": {
+                "tags": [
+                    "縣市地區"
+                ],
+                "summary": "取得縣市",
+                "parameters": [
+                    {
+                        "name": "keyword",
+                        "description": "關鍵字搜尋(name)",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "page_size",
+                        "description": "單頁筆數",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "description": "當前頁次",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "orderby",
+                        "description": "排序",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "id:desc"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "allOf": [
+                                                        {
+                                                            "$ref": "#/components/schemas/ResponseDataList"
+                                                        },
+                                                        {
+                                                            "properties": {
+                                                                "list": {
+                                                                    "items": {
+                                                                        "$ref": "#/components/schemas/City"
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/city/{cityId}": {
+            "parameters": [
+                {
+                    "name": "cityId",
+                    "description": "縣市ID",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "integer",
+                        "example": 1
+                    }
+                }
+            ],
+            "get": {
+                "tags": [
+                    "縣市地區"
+                ],
+                "summary": "取得單一縣市",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/City"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/area": {
+            "get": {
+                "tags": [
+                    "縣市地區"
+                ],
+                "summary": "取得行政區",
+                "parameters": [
+                    {
+                        "name": "keyword",
+                        "description": "關鍵字搜尋(name)",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "page_size",
+                        "description": "單頁筆數",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "description": "當前頁次",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "orderby",
+                        "description": "排序",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "id:desc"
+                        }
+                    },
+                    {
+                        "name": "city_id",
+                        "description": "縣市ID",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "allOf": [
+                                                        {
+                                                            "$ref": "#/components/schemas/ResponseDataList"
+                                                        },
+                                                        {
+                                                            "properties": {
+                                                                "list": {
+                                                                    "items": {
+                                                                        "$ref": "#/components/schemas/Area"
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/area/{areaId}": {
+            "parameters": [
+                {
+                    "name": "areaId",
+                    "description": "行政區ID",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "integer",
+                        "example": 1
+                    }
+                }
+            ],
+            "get": {
+                "tags": [
+                    "縣市地區"
+                ],
+                "summary": "取得單一行政區",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/Area"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/viewcount": {
+            "get": {
+                "tags": [
+                    "系統相關"
+                ],
+                "summary": "取得瀏覽人數",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/Viewcount"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Response": {
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "description": "狀態訊息",
+                        "example": "success"
+                    },
+                    "code": {
+                        "type": "number",
+                        "description": "回傳狀態碼",
+                        "example": 200
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "操作訊息"
+                    },
+                    "data": {
+                        "type": "object"
+                    },
+                    "error": {
+                        "type": "object"
+                    }
+                }
+            },
+            "ResponseDataList": {
+                "properties": {
+                    "list": {
+                        "type": "array",
+                        "items": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "LoginToken": {
+                "properties": {
+                    "token": {
+                        "type": "string",
+                        "description": "登入Token"
+                    },
+                    "iat": {
+                        "type": "number",
+                        "description": "建立時間(Timestamp)"
+                    },
+                    "exp": {
+                        "type": "number",
+                        "description": "到期時間(Timestamp)"
+                    }
+                }
+            },
+            "Captcha": {
+                "properties": {
+                    "key": {
+                        "type": "string",
+                        "description": "驗證碼金鑰"
+                    },
+                    "img": {
+                        "type": "string",
+                        "description": "驗證碼圖片(Base64)"
+                    }
+                }
+            },
+            "FileStorage": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "檔案UUID",
+                        "format": "uuid"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "檔案名稱",
+                        "example": "測試檔案"
+                    },
+                    "mime": {
+                        "type": "string",
+                        "description": "檔案類型",
+                        "example": "image/jpeg"
+                    },
+                    "size": {
+                        "type": "integer",
+                        "description": "檔案大小",
+                        "example": 100
+                    },
+                    "url": {
+                        "type": "string",
+                        "description": "檔案網址",
+                        "example": "https://example.com"
+                    }
+                }
+            },
+            "VerifyCodeTypeEnum": {
+                "type": "string",
+                "description": "驗證碼類別",
+                "enum": [
+                    "register",
+                    "login",
+                    "forget_password",
+                    "bind"
+                ]
+            },
+            "SexEnum": {
+                "type": "string",
+                "description": "性別",
+                "enum": [
+                    "male",
+                    "female"
+                ]
+            },
+            "ProviderEnum": {
+                "type": "string",
+                "description": "第三方",
+                "enum": [
+                    "line",
+                    "google",
+                    "facebook"
+                ]
+            },
+            "City": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "縣市ID",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "縣市名稱",
+                        "example": "台南市"
+                    }
+                }
+            },
+            "Area": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "行政區ID",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "行政區名稱",
+                        "example": "永康區"
+                    },
+                    "detail": {
+                        "$ref": "#/components/schemas/Area.Detail"
+                    }
+                }
+            },
+            "Area.Detail": {
+                "properties": {
+                    "post_code": {
+                        "type": "string",
+                        "description": "郵遞區號",
+                        "example": "100"
+                    }
+                }
+            },
+            "Profile": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "人員ID",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "人員名稱",
+                        "example": "王小明"
+                    },
+                    "account": {
+                        "type": "string",
+                        "description": "帳號",
+                        "example": "admin"
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "信箱",
+                        "example": "admin@admin.com"
+                    },
+                    "phone": {
+                        "type": "string",
+                        "description": "手機號碼",
+                        "example": "0912345678"
+                    },
+                    "passport": {
+                        "type": "string",
+                        "description": "身分證",
+                        "example": "A123456789"
+                    },
+                    "serial_number": {
+                        "type": "string",
+                        "description": "會員編號",
+                        "example": "M24042100001"
+                    },
+                    "sex": {
+                        "$ref": "#/components/schemas/SexEnum"
+                    },
+                    "birthday": {
+                        "type": "string",
+                        "description": "生日",
+                        "example": "1998/07/19"
+                    },
+                    "company_name": {
+                        "type": "string",
+                        "description": "公司名稱",
+                        "example": "派派咖啡"
+                    },
+                    "uniform_numbers": {
+                        "type": "string",
+                        "description": "統一編號",
+                        "example": "54670929"
+                    },
+                    "job": {
+                        "type": "string",
+                        "description": "職稱",
+                        "example": "工程師"
+                    },
+                    "tel": {
+                        "type": "string",
+                        "description": "室內電話",
+                        "example": "(06)53634655"
+                    },
+                    "post_code": {
+                        "type": "string",
+                        "description": "郵遞區號",
+                        "example": "709"
+                    },
+                    "address": {
+                        "type": "string",
+                        "description": "地址",
+                        "example": "台南市安南區00號"
+                    },
+                    "city": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "description": "縣市ID",
+                                "example": 1
+                            }
+                        },
+                        "required": [
+                            "id"
+                        ]
+                    },
+                    "area": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "description": "行政區ID",
+                                "example": 1
+                            }
+                        },
+                        "required": [
+                            "id"
+                        ]
+                    },
+                    "image": {
+                        "$ref": "#/components/schemas/FileStorage"
+                    },
+                    "provider": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Profile.Provider"
+                        }
+                    }
+                }
+            },
+            "Profile.Provider": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "三方ID",
+                        "example": 1
+                    },
+                    "provider": {
+                        "$ref": "#/components/schemas/ProviderEnum"
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "電子信箱",
+                        "example": "123@gmail.com.tw"
+                    }
+                }
+            },
+            "PlatformAttribute": {
+                "properties": {
+                    "platform_attribute_key": {
+                        "type": "string",
+                        "description": "系統參數，key-value",
+                        "example": "value"
+                    }
+                }
+            },
+            "Viewcount": {
+                "properties": {
+                    "value": {
+                        "type": "integer",
+                        "description": "人數統計",
+                        "example": 100
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "token": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "security": [
+        {
+            "token": []
+        }
+    ]
+}

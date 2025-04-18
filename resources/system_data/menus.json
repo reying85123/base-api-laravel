@@ -1,0 +1,477 @@
+[
+    {
+        "name": "系統資訊管理",
+        "key": "system_info_manage",
+        "parent_key": "",
+        "href": "",
+        "slug": "dropdown",
+        "type": "back",
+        "permissions": [
+            {
+                "name": "view system_info_manage",
+                "guard_name": "api",
+                "action": "view"
+            }
+        ]
+    },
+    {
+        "name": "信件維護",
+        "key": "mailinfo_manage",
+        "parent_key": "system_info_manage",
+        "href": "",
+        "slug": "dropdown",
+        "type": "back",
+        "permissions": [
+            {
+                "name": "view mailinfo_manage",
+                "guard_name": "api",
+                "action": "view"
+            },
+            {
+                "name": "update mailinfo_manage",
+                "guard_name": "api",
+                "action": "update"
+            }
+        ]
+    },
+    {
+        "name": "公司維護",
+        "key": "company",
+        "parent_key": "system_info_manage",
+        "href": "",
+        "slug": "link",
+        "type": "back",
+        "permissions": [
+            {
+                "name": "view company",
+                "guard_name": "api",
+                "action": "view"
+            },
+            {
+                "name": "create company",
+                "guard_name": "api",
+                "action": "create"
+            },
+            {
+                "name": "update company",
+                "guard_name": "api",
+                "action": "update"
+            },
+            {
+                "name": "delete company",
+                "guard_name": "api",
+                "action": "delete"
+            }
+        ]
+    },
+    {
+        "name": "網站內容管理",
+        "key": "cms_manage",
+        "parent_key": "",
+        "href": "",
+        "slug": "dropdown",
+        "type": "back",
+        "permissions": [
+            {
+                "name": "view cms_manage",
+                "guard_name": "api",
+                "action": "view"
+            }
+        ]
+    },
+    {
+        "name": "前台選單維護",
+        "key": "frontend_menu",
+        "parent_key": "cms_manage",
+        "href": "",
+        "slug": "link",
+        "type": "back",
+        "permissions": [
+            {
+                "name": "view frontend_menu",
+                "guard_name": "api",
+                "action": "view"
+            },
+            {
+                "name": "create frontend_menu",
+                "guard_name": "api",
+                "action": "create"
+            },
+            {
+                "name": "update frontend_menu",
+                "guard_name": "api",
+                "action": "update"
+            },
+            {
+                "name": "delete frontend_menu",
+                "guard_name": "api",
+                "action": "delete"
+            }
+        ]
+    },
+    {
+        "name": "人員管理",
+        "key": "user_manage",
+        "parent_key": "",
+        "href": "",
+        "slug": "dropdown",
+        "type": "back",
+        "permissions": [
+            {
+                "name": "view user_manage",
+                "guard_name": "api",
+                "action": "view"
+            }
+        ]
+    },
+    {
+        "name": "職稱維護",
+        "key": "company_job",
+        "parent_key": "user_manage",
+        "href": "",
+        "slug": "link",
+        "type": "back",
+        "permissions": [
+            {
+                "name": "view company_job",
+                "guard_name": "api",
+                "action": "view"
+            },
+            {
+                "name": "create company_job",
+                "guard_name": "api",
+                "action": "create"
+            },
+            {
+                "name": "update company_job",
+                "guard_name": "api",
+                "action": "update"
+            },
+            {
+                "name": "delete company_job",
+                "guard_name": "api",
+                "action": "delete"
+            }
+        ]
+    },
+    {
+        "name": "資料權限維護",
+        "key": "data_access_role",
+        "parent_key": "user_manage",
+        "href": "",
+        "slug": "link",
+        "type": "back",
+        "permissions": [
+            {
+                "name": "view data_access_role",
+                "guard_name": "api",
+                "action": "view"
+            },
+            {
+                "name": "create data_access_role",
+                "guard_name": "api",
+                "action": "create"
+            },
+            {
+                "name": "update data_access_role",
+                "guard_name": "api",
+                "action": "update"
+            },
+            {
+                "name": "delete data_access_role",
+                "guard_name": "api",
+                "action": "delete"
+            }
+        ]
+    },
+    {
+        "name": "帳號維護",
+        "key": "user",
+        "parent_key": "user_manage",
+        "href": "",
+        "slug": "link",
+        "type": "back",
+        "permissions": [
+            {
+                "name": "view user",
+                "guard_name": "api",
+                "action": "view"
+            },
+            {
+                "name": "create user",
+                "guard_name": "api",
+                "action": "create"
+            },
+            {
+                "name": "update user",
+                "guard_name": "api",
+                "action": "update"
+            },
+            {
+                "name": "delete user",
+                "guard_name": "api",
+                "action": "delete"
+            }
+        ]
+    },
+    {
+        "name": "角色權限管理",
+        "key": "role_permission_manage",
+        "parent_key": "",
+        "href": "",
+        "slug": "dropdown",
+        "type": "back",
+        "permissions": [
+            {
+                "name": "view role_permission_manage",
+                "guard_name": "api",
+                "action": "view"
+            }
+        ]
+    },
+    {
+        "name": "人員角色管理",
+        "key": "role_manage",
+        "parent_key": "role_permission_manage",
+        "href": "",
+        "slug": "dropdown",
+        "type": "back",
+        "permissions": [
+            {
+                "name": "view role_manage",
+                "guard_name": "api",
+                "action": "view"
+            }
+        ]
+    },
+    {
+        "name": "人員角色維護",
+        "key": "role",
+        "parent_key": "role_manage",
+        "href": "",
+        "slug": "link",
+        "type": "back",
+        "permissions": [
+            {
+                "name": "view role",
+                "guard_name": "api",
+                "action": "view"
+            },
+            {
+                "name": "create role",
+                "guard_name": "api",
+                "action": "create"
+            },
+            {
+                "name": "update role",
+                "guard_name": "api",
+                "action": "update"
+            },
+            {
+                "name": "delete role",
+                "guard_name": "api",
+                "action": "delete"
+            }
+        ]
+    },
+    {
+        "name": "會員角色管理",
+        "key": "member_role_manage",
+        "parent_key": "role_permission_manage",
+        "href": "",
+        "slug": "dropdown",
+        "type": "back",
+        "permissions": [
+            {
+                "name": "view member_role_manage",
+                "guard_name": "api",
+                "action": "view"
+            }
+        ]
+    },
+    {
+        "name": "會員角色維護",
+        "key": "member_role",
+        "parent_key": "member_role_manage",
+        "href": "",
+        "slug": "link",
+        "type": "back",
+        "permissions": [
+            {
+                "name": "view member_role",
+                "guard_name": "api",
+                "action": "view"
+            },
+            {
+                "name": "create member_role",
+                "guard_name": "api",
+                "action": "create"
+            },
+            {
+                "name": "update member_role",
+                "guard_name": "api",
+                "action": "update"
+            },
+            {
+                "name": "delete member_role",
+                "guard_name": "api",
+                "action": "delete"
+            }
+        ]
+    },
+    {
+        "name": "報表管理",
+        "key": "report_manage",
+        "parent_key": "",
+        "href": "",
+        "slug": "dropdown",
+        "type": "back",
+        "permissions": [
+            {
+                "name": "view report_manage",
+                "guard_name": "api",
+                "action": "view"
+            }
+        ]
+    },
+    {
+        "name": "多語系管理",
+        "key": "language_manage",
+        "parent_key": "",
+        "href": "",
+        "slug": "dropdown",
+        "type": "back",
+        "permissions": [
+            {
+                "name": "view language_manage",
+                "guard_name": "api",
+                "action": "view"
+            }
+        ]
+    },
+    {
+        "name": "語系維護",
+        "key": "language_setting",
+        "parent_key": "language_manage",
+        "href": "",
+        "slug": "link",
+        "type": "back",
+        "permissions": [
+            {
+                "name": "view language_setting",
+                "guard_name": "api",
+                "action": "view"
+            },
+            {
+                "name": "create language_setting",
+                "guard_name": "api",
+                "action": "create"
+            },
+            {
+                "name": "update language_setting",
+                "guard_name": "api",
+                "action": "update"
+            },
+            {
+                "name": "delete language_setting",
+                "guard_name": "api",
+                "action": "delete"
+            }
+        ]
+    },
+    {
+        "name": "語系資料維護",
+        "key": "language_data",
+        "parent_key": "language_manage",
+        "href": "",
+        "slug": "link",
+        "type": "back",
+        "permissions": [
+            {
+                "name": "view language_data",
+                "guard_name": "api",
+                "action": "view"
+            },
+            {
+                "name": "update language_data",
+                "guard_name": "api",
+                "action": "update"
+            }
+        ]
+    },
+    {
+        "name": "全站設定",
+        "key": "full_site_setting",
+        "parent_key": "",
+        "href": "",
+        "slug": "dropdown",
+        "type": "back",
+        "permissions": [
+            {
+                "name": "view full_site_setting",
+                "guard_name": "api",
+                "action": "view"
+            }
+        ]
+    },
+    {
+        "name": "基礎設定",
+        "key": "basic_setting",
+        "parent_key": "",
+        "href": "",
+        "slug": "dropdown",
+        "type": "back",
+        "permissions": [
+            {
+                "name": "view basic_setting",
+                "guard_name": "api",
+                "action": "view"
+            }
+        ]
+    },
+    {
+        "name": "系統紀錄",
+        "key": "system_log_manage",
+        "parent_key": "",
+        "href": "",
+        "slug": "dropdown",
+        "type": "back",
+        "permissions": [
+            {
+                "name": "view system_log_manage",
+                "guard_name": "api",
+                "action": "view"
+            }
+        ]
+    },
+    {
+        "name": "操作記錄",
+        "key": "operate_log",
+        "parent_key": "system_log_manage",
+        "href": "",
+        "slug": "link",
+        "type": "back",
+        "permissions": [
+            {
+                "name": "view operate_log",
+                "guard_name": "api",
+                "action": "view"
+            }
+        ]
+    },
+    {
+        "name": "信件記錄",
+        "key": "mail_log",
+        "parent_key": "system_log_manage",
+        "href": "",
+        "slug": "link",
+        "type": "back",
+        "permissions": [
+            {
+                "name": "view mail_log",
+                "guard_name": "api",
+                "action": "view"
+            }
+        ]
+    }
+]

@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  # mysql:
+  #   image: mysql:8.3
+  #   container_name: ${COMPOSE_PROJECT_NAME}_mysql_db
+  #   restart: unless-stopped
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+  #     MYSQL_DATABASE: ${MYSQL_DATABASE}
+  #     MYSQL_USER: ${MYSQL_USER}
+  #     MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+  #   ports:
+  #     - ${MYSQL_PORT}:3306
+  #   networks:
+  #     - app_network
+  #   volumes:
+  #     - mysql_data:/var/lib/mysql
+
+  mysql:
+    image: mariadb:10.5
+    container_name: ${COMPOSE_PROJECT_NAME}_mariadb_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - ${MYSQL_PORT}:3306
+    networks:
+      - app_network
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+networks:
+  app_network:
+    name: ${COMPOSE_PROJECT_NAME}_app_network
+    driver: bridge
+    external: false
+
+volumes:
+  # mysql_data:
+  mariadb_data:

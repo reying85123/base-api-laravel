@@ -1,0 +1,64 @@
+FROM php:7.4-fpm
+
+ENV TZ=Asia/Taipei
+
+# 安裝系統套件與 PHP 擴展
+RUN apt-get update && apt-get install -y \
+    zip unzip git curl nano supervisor wget \
+    libpng-dev libjpeg62-turbo-dev libfreetype6-dev libonig-dev \
+    libxml2-dev libzip-dev libpq-dev libxslt-dev \
+    libssl-dev libcurl4-openssl-dev pkg-config \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install \
+        pdo \
+        pdo_mysql \
+        gd \
+        mbstring \
+        xml \
+        zip \
+        bcmath \
+        pcntl \
+        opcache \
+        xsl \
+        sockets \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# 分開安裝 pecl 套件並容錯（避免 swoole 失敗讓整體爆掉）
+RUN pecl install redis && docker-php-ext-enable redis \
+    || echo "redis install failed"
+
+RUN pecl install swoole && docker-php-ext-enable swoole \
+    || echo "swoole install failed"
+
+# 安裝 wkhtmltopdf
+RUN apt-get update && \
+    apt-get install -y wget fontconfig && \
+    wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.stretch_amd64.deb -O wkhtmltox.deb && \
+    dpkg -i wkhtmltox.deb || apt-get install -f -y && \
+    rm wkhtmltox.deb
+
+# 安裝 Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+WORKDIR /var/www/html
+
+COPY composer.lock composer.json /var/www/html/
+COPY . .
+
+# 解決 Git 權限警告（如有 submodule）
+RUN git config --global --add safe.directory /var/www/html
+
+# 權限設定
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
+    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+
+# 安裝 PHP 套件
+RUN composer install --no-interaction --prefer-dist
+
+# Laravel 快取清理
+RUN php artisan config:clear \
+    && php artisan cache:clear \
+    && php artisan route:clear \
+    && php artisan view:clear
+
+CMD ["php-fpm"]

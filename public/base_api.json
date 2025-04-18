@@ -1,0 +1,3319 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Laravel_API_Base 後台通用",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8000/admin",
+            "description": "本機測試"
+        }
+    ],
+    "tags": [
+        {
+            "name": "系統登入"
+        },
+        {
+            "name": "公司管理"
+        },
+        {
+            "name": "人員管理"
+        },
+        {
+            "name": "權限群組"
+        },
+        {
+            "name": "功能清單"
+        },
+        {
+            "name": "職稱管理"
+        },
+        {
+            "name": "平台參數"
+        },
+        {
+            "name": "檔案上傳"
+        },
+        {
+            "name": "縣市地區"
+        },
+        {
+            "name": "信件設定"
+        },
+        {
+            "name": "信件紀錄"
+        },
+        {
+            "name": "系統相關"
+        }
+    ],
+    "paths": {
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "系統登入"
+                ],
+                "summary": "人員登入",
+                "security": [],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "account": {
+                                        "type": "string",
+                                        "description": "帳號",
+                                        "example": "user"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "description": "密碼",
+                                        "example": "password"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/LoginToken"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/refresh_token": {
+            "post": {
+                "tags": [
+                    "系統登入"
+                ],
+                "summary": "刷新登入Token",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "token": {
+                                        "type": "string",
+                                        "description": "登入Token"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/LoginToken"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/me": {
+            "get": {
+                "tags": [
+                    "系統登入"
+                ],
+                "summary": "取得登入者資訊",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/Profile"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "系統登入"
+                ],
+                "summary": "更新登入者資訊",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "人員名稱",
+                                        "example": "王小明"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "description": "人員信箱",
+                                        "example": "admin@example.com",
+                                        "format": "email",
+                                        "nullable": true
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "description": "聯絡電話",
+                                        "example": "0912345678",
+                                        "nullable": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/Profile"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/change_password": {
+            "post": {
+                "tags": [
+                    "系統登入"
+                ],
+                "summary": "修改登入者密碼",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "old_password": {
+                                        "type": "string",
+                                        "description": "舊密碼"
+                                    },
+                                    "new_password": {
+                                        "type": "string",
+                                        "description": "新密碼"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "成功，不回傳訊息"
+                    }
+                }
+            }
+        },
+        "/auth/permission": {
+            "get": {
+                "tags": [
+                    "系統登入"
+                ],
+                "summary": "取得登入者權限",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "allOf": [
+                                                        {
+                                                            "$ref": "#/components/schemas/ResponseDataList"
+                                                        },
+                                                        {
+                                                            "properties": {
+                                                                "list": {
+                                                                    "items": {
+                                                                        "$ref": "#/components/schemas/RolePermission"
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/company": {
+            "get": {
+                "tags": [
+                    "公司管理"
+                ],
+                "summary": "取得公司清單",
+                "parameters": [
+                    {
+                        "name": "keyword",
+                        "description": "關鍵字搜尋(name)",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "page_size",
+                        "description": "單頁筆數",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "description": "當前頁次",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "orderby",
+                        "description": "排序",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "id:desc"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "allOf": [
+                                                        {
+                                                            "$ref": "#/components/schemas/ResponseDataList"
+                                                        },
+                                                        {
+                                                            "properties": {
+                                                                "list": {
+                                                                    "items": {
+                                                                        "$ref": "#/components/schemas/Company"
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "公司管理"
+                ],
+                "summary": "新增公司",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "公司名稱",
+                                        "example": "王小明物流有限公司"
+                                    },
+                                    "name_en": {
+                                        "type": "string",
+                                        "description": "公司名稱(英)",
+                                        "example": "company"
+                                    },
+                                    "opendate": {
+                                        "type": "string",
+                                        "description": "成立時間",
+                                        "example": "2020/01/01"
+                                    },
+                                    "invoice": {
+                                        "type": "string",
+                                        "description": "發票抬頭",
+                                        "example": "發票抬頭"
+                                    },
+                                    "vatnumber": {
+                                        "type": "string",
+                                        "description": "統一編號",
+                                        "example": "12345678"
+                                    },
+                                    "ceo": {
+                                        "type": "string",
+                                        "description": "負責人",
+                                        "example": "王小明"
+                                    },
+                                    "tel": {
+                                        "type": "string",
+                                        "description": "公司電話",
+                                        "example": "001234567"
+                                    },
+                                    "tel_ext": {
+                                        "type": "string",
+                                        "description": "分機",
+                                        "example": "00"
+                                    },
+                                    "tel_service": {
+                                        "type": "string",
+                                        "description": "客服電話",
+                                        "example": "001234567"
+                                    },
+                                    "fax": {
+                                        "type": "string",
+                                        "description": "傳真",
+                                        "example": null
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "description": "聯絡電話",
+                                        "example": "0912345678"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "description": "公司信箱",
+                                        "example": "admin@example.com"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "description": "公司地址",
+                                        "example": "台南市永康區00號"
+                                    },
+                                    "address_en": {
+                                        "type": "string",
+                                        "description": "公司地址(英)",
+                                        "example": "Tainan City, No.0"
+                                    },
+                                    "service_time": {
+                                        "type": "string",
+                                        "description": "客服時間",
+                                        "example": "08:00 ~ 17:00"
+                                    },
+                                    "sequence": {
+                                        "type": "integer",
+                                        "description": "排序",
+                                        "example": 0
+                                    },
+                                    "city": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "description": "縣市ID",
+                                                "example": 1
+                                            }
+                                        },
+                                        "required": [
+                                            "id"
+                                        ]
+                                    },
+                                    "area": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "description": "行政區ID",
+                                                "example": 1
+                                            }
+                                        },
+                                        "required": [
+                                            "id"
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "name"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/Company"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/company/{companyId}": {
+            "parameters": [
+                {
+                    "name": "companyId",
+                    "description": "公司ID",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "integer",
+                        "example": 1
+                    }
+                }
+            ],
+            "get": {
+                "tags": [
+                    "公司管理"
+                ],
+                "summary": "取得單一公司",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/Company"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "公司管理"
+                ],
+                "summary": "修改公司",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "公司名稱",
+                                        "example": "王小明物流有限公司"
+                                    },
+                                    "name_en": {
+                                        "type": "string",
+                                        "description": "公司名稱(英)",
+                                        "example": "company",
+                                        "nullable": true
+                                    },
+                                    "opendate": {
+                                        "type": "string",
+                                        "description": "成立時間",
+                                        "example": "2020/01/01",
+                                        "nullable": true
+                                    },
+                                    "invoice": {
+                                        "type": "string",
+                                        "description": "發票抬頭",
+                                        "example": "發票抬頭",
+                                        "nullable": true
+                                    },
+                                    "vatnumber": {
+                                        "type": "string",
+                                        "description": "統一編號",
+                                        "example": "12345678",
+                                        "nullable": true
+                                    },
+                                    "ceo": {
+                                        "type": "string",
+                                        "description": "負責人",
+                                        "example": "王小明",
+                                        "nullable": true
+                                    },
+                                    "tel": {
+                                        "type": "string",
+                                        "description": "公司電話",
+                                        "example": "001234567",
+                                        "nullable": true
+                                    },
+                                    "tel_ext": {
+                                        "type": "string",
+                                        "description": "分機",
+                                        "example": "00",
+                                        "nullable": true
+                                    },
+                                    "tel_service": {
+                                        "type": "string",
+                                        "description": "客服電話",
+                                        "example": "001234567",
+                                        "nullable": true
+                                    },
+                                    "fax": {
+                                        "type": "string",
+                                        "description": "傳真",
+                                        "example": null,
+                                        "nullable": true
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "description": "聯絡電話",
+                                        "example": "0912345678",
+                                        "nullable": true
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "description": "公司信箱",
+                                        "example": "admin@example.com",
+                                        "nullable": true
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "description": "公司地址",
+                                        "example": "台南市永康區00號",
+                                        "nullable": true
+                                    },
+                                    "address_en": {
+                                        "type": "string",
+                                        "description": "公司地址(英)",
+                                        "example": "Tainan City, No.0",
+                                        "nullable": true
+                                    },
+                                    "service_time": {
+                                        "type": "string",
+                                        "description": "客服時間",
+                                        "example": "08:00 ~ 17:00",
+                                        "nullable": true
+                                    },
+                                    "sequence": {
+                                        "type": "integer",
+                                        "description": "排序",
+                                        "example": 0
+                                    },
+                                    "city": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "description": "縣市ID",
+                                                "example": 1,
+                                                "nullable": true
+                                            }
+                                        },
+                                        "required": [
+                                            "id"
+                                        ]
+                                    },
+                                    "area": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "description": "行政區ID",
+                                                "example": 1,
+                                                "nullable": true
+                                            }
+                                        },
+                                        "required": [
+                                            "id"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/Company"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "公司管理"
+                ],
+                "summary": "刪除公司",
+                "responses": {
+                    "204": {
+                        "description": "成功，不回傳訊息"
+                    }
+                }
+            }
+        },
+        "/user": {
+            "get": {
+                "tags": [
+                    "人員管理"
+                ],
+                "summary": "取得人員清單",
+                "parameters": [
+                    {
+                        "name": "role_id",
+                        "description": "權限群組ID",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "keyword",
+                        "description": "關鍵字搜尋(name、email、phone、account、company.name、role.name)",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "page_size",
+                        "description": "單頁筆數",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "description": "當前頁次",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "orderby",
+                        "description": "排序",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "id:desc"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "allOf": [
+                                                        {
+                                                            "$ref": "#/components/schemas/ResponseDataList"
+                                                        },
+                                                        {
+                                                            "properties": {
+                                                                "list": {
+                                                                    "items": {
+                                                                        "$ref": "#/components/schemas/User"
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "人員管理"
+                ],
+                "summary": "新增人員",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "人員名稱",
+                                        "example": "王小明"
+                                    },
+                                    "account": {
+                                        "type": "string",
+                                        "description": "人員帳號",
+                                        "example": "admin"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "description": "人員密碼",
+                                        "example": "password"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "description": "人員信箱",
+                                        "example": "admin@example.com"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "description": "聯絡電話",
+                                        "example": "0912345678"
+                                    },
+                                    "is_enable": {
+                                        "type": "boolean",
+                                        "description": "是否啟用"
+                                    },
+                                    "remark": {
+                                        "type": "string",
+                                        "description": "備註",
+                                        "example": "備註"
+                                    },
+                                    "role": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "description": "群組ID",
+                                                "example": 1
+                                            }
+                                        },
+                                        "required": [
+                                            "id"
+                                        ]
+                                    },
+                                    "company": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "description": "公司ID",
+                                                "example": 1
+                                            }
+                                        },
+                                        "required": [
+                                            "id"
+                                        ]
+                                    },
+                                    "company_job": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "description": "職稱ID",
+                                                "example": 1
+                                            }
+                                        },
+                                        "required": [
+                                            "id"
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "account",
+                                    "password",
+                                    "email",
+                                    "role"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/User"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/{userId}": {
+            "parameters": [
+                {
+                    "name": "userId",
+                    "description": "人員ID",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "integer",
+                        "example": 1
+                    }
+                }
+            ],
+            "get": {
+                "tags": [
+                    "人員管理"
+                ],
+                "summary": "取得單一人員",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/User"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "人員管理"
+                ],
+                "summary": "修改人員",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "人員名稱",
+                                        "example": "王小明"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "description": "人員信箱",
+                                        "example": "admin@example.com"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "description": "聯絡電話",
+                                        "example": "0912345678",
+                                        "nullable": true
+                                    },
+                                    "is_enable": {
+                                        "type": "boolean",
+                                        "description": "是否啟用"
+                                    },
+                                    "remark": {
+                                        "type": "string",
+                                        "description": "備註",
+                                        "example": "備註",
+                                        "nullable": true
+                                    },
+                                    "role": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "description": "群組ID",
+                                                "example": 1
+                                            }
+                                        },
+                                        "required": [
+                                            "id"
+                                        ]
+                                    },
+                                    "company": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "description": "公司ID",
+                                                "example": 1,
+                                                "nullable": true
+                                            }
+                                        },
+                                        "required": [
+                                            "id"
+                                        ]
+                                    },
+                                    "company_job": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "description": "職稱ID",
+                                                "example": 1,
+                                                "nullable": true
+                                            }
+                                        },
+                                        "required": [
+                                            "id"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/User"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "人員管理"
+                ],
+                "summary": "刪除人員",
+                "responses": {
+                    "204": {
+                        "description": "成功，不回傳訊息"
+                    }
+                }
+            }
+        },
+        "/role": {
+            "get": {
+                "tags": [
+                    "權限群組"
+                ],
+                "summary": "取得權限群組清單",
+                "parameters": [
+                    {
+                        "name": "keyword",
+                        "description": "關鍵字搜尋(name)",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "page_size",
+                        "description": "單頁筆數",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "description": "當前頁次",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "orderby",
+                        "description": "排序",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "id:desc"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "allOf": [
+                                                        {
+                                                            "$ref": "#/components/schemas/ResponseDataList"
+                                                        },
+                                                        {
+                                                            "properties": {
+                                                                "list": {
+                                                                    "items": {
+                                                                        "$ref": "#/components/schemas/Role"
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "權限群組"
+                ],
+                "summary": "新增權限群組",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "群組名稱",
+                                        "example": "管理員"
+                                    },
+                                    "permissions": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "description": "權限ID",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "required": [
+                                                "id"
+                                            ]
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "name"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/Role"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/role/{roleId}": {
+            "parameters": [
+                {
+                    "name": "roleId",
+                    "description": "群組ID",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "integer",
+                        "example": 1
+                    }
+                }
+            ],
+            "get": {
+                "tags": [
+                    "權限群組"
+                ],
+                "summary": "取得單一權限群組",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/Role"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "權限群組"
+                ],
+                "summary": "修改權限群組",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "群組名稱",
+                                        "example": "管理員"
+                                    },
+                                    "permissions": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "description": "權限ID",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "required": [
+                                                "id"
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/Role"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "權限群組"
+                ],
+                "summary": "刪除人員",
+                "responses": {
+                    "204": {
+                        "description": "成功，不回傳訊息"
+                    }
+                }
+            }
+        },
+        "/menu": {
+            "get": {
+                "tags": [
+                    "功能清單"
+                ],
+                "summary": "取得功能清單",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "allOf": [
+                                                        {
+                                                            "$ref": "#/components/schemas/ResponseDataList"
+                                                        },
+                                                        {
+                                                            "properties": {
+                                                                "list": {
+                                                                    "items": {
+                                                                        "$ref": "#/components/schemas/Menu"
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/menu_permission": {
+            "get": {
+                "tags": [
+                    "功能清單"
+                ],
+                "summary": "取得功能清單權限",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "allOf": [
+                                                        {
+                                                            "$ref": "#/components/schemas/ResponseDataList"
+                                                        },
+                                                        {
+                                                            "properties": {
+                                                                "list": {
+                                                                    "items": {
+                                                                        "$ref": "#/components/schemas/MenuPermission"
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/company_job": {
+            "get": {
+                "tags": [
+                    "職稱管理"
+                ],
+                "summary": "取得職稱清單",
+                "parameters": [
+                    {
+                        "name": "keyword",
+                        "description": "關鍵字搜尋(name)",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "page_size",
+                        "description": "單頁筆數",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "description": "當前頁次",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "orderby",
+                        "description": "排序",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "id:desc"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "allOf": [
+                                                        {
+                                                            "$ref": "#/components/schemas/ResponseDataList"
+                                                        },
+                                                        {
+                                                            "properties": {
+                                                                "list": {
+                                                                    "items": {
+                                                                        "$ref": "#/components/schemas/CompanyJob"
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "職稱管理"
+                ],
+                "summary": "新增職稱",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "職稱名稱",
+                                        "example": "工程師"
+                                    },
+                                    "parent_job": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "description": "父類別-職稱ID",
+                                                "example": 1,
+                                                "nullable": true
+                                            }
+                                        }
+                                    },
+                                    "sequence": {
+                                        "type": "integer",
+                                        "description": "排序"
+                                    }
+                                },
+                                "required": [
+                                    "name"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/CompanyJob"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/company_job/{companyJobId}": {
+            "parameters": [
+                {
+                    "name": "companyJobId",
+                    "description": "職稱ID",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "integer",
+                        "example": 1
+                    }
+                }
+            ],
+            "get": {
+                "tags": [
+                    "職稱管理"
+                ],
+                "summary": "取得單一職稱",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/CompanyJob"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "職稱管理"
+                ],
+                "summary": "修改職稱",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "職稱名稱",
+                                        "example": "工程師"
+                                    },
+                                    "parent_job": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "description": "父類別-職稱ID",
+                                                "example": 1,
+                                                "nullable": true
+                                            }
+                                        }
+                                    },
+                                    "sequence": {
+                                        "type": "integer",
+                                        "description": "排序"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/CompanyJob"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "職稱管理"
+                ],
+                "summary": "刪除職稱",
+                "responses": {
+                    "204": {
+                        "description": "成功，不回傳訊息"
+                    }
+                }
+            }
+        },
+        "/platform_attribute": {
+            "get": {
+                "tags": [
+                    "平台參數"
+                ],
+                "summary": "取得平台參數",
+                "parameters": [
+                    {
+                        "name": "key",
+                        "description": "平台Key搜尋",
+                        "in": "query",
+                        "required": false,
+                        "style": "form",
+                        "explode": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/PlatformAttribute"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "平台參數"
+                ],
+                "summary": "修改平台參數",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "platform_attribute_key": {
+                                        "type": "string",
+                                        "description": "平台參數key",
+                                        "example": "value"
+                                    }
+                                },
+                                "required": [
+                                    "platform_attribute_key"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/PlatformAttribute"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/file/upload": {
+            "post": {
+                "tags": [
+                    "檔案上傳"
+                ],
+                "summary": "檔案上傳",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "description": "上傳檔案",
+                                        "format": "binary"
+                                    }
+                                },
+                                "required": [
+                                    "file"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/FileStorage"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/file/info/{fileUuid}": {
+            "parameters": [
+                {
+                    "name": "fileUuid",
+                    "description": "檔案UUID",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }
+            ],
+            "get": {
+                "tags": [
+                    "檔案上傳"
+                ],
+                "summary": "取得上傳的檔案",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/FileStorage"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/file/d/{fileUuid}": {
+            "servers": [
+                {
+                    "url": "http://127.0.0.1:8000",
+                    "description": "本機測試"
+                }
+            ],
+            "parameters": [
+                {
+                    "name": "fileUuid",
+                    "description": "檔案UUID",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }
+            ],
+            "get": {
+                "tags": [
+                    "檔案上傳"
+                ],
+                "summary": "檔案下載",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/city": {
+            "get": {
+                "tags": [
+                    "縣市地區"
+                ],
+                "summary": "取得縣市",
+                "parameters": [
+                    {
+                        "name": "keyword",
+                        "description": "關鍵字搜尋(name)",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "page_size",
+                        "description": "單頁筆數",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "description": "當前頁次",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "orderby",
+                        "description": "排序",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "id:desc"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "allOf": [
+                                                        {
+                                                            "$ref": "#/components/schemas/ResponseDataList"
+                                                        },
+                                                        {
+                                                            "properties": {
+                                                                "list": {
+                                                                    "items": {
+                                                                        "$ref": "#/components/schemas/City"
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/city/{cityId}": {
+            "parameters": [
+                {
+                    "name": "cityId",
+                    "description": "縣市ID",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "integer",
+                        "example": 1
+                    }
+                }
+            ],
+            "get": {
+                "tags": [
+                    "縣市地區"
+                ],
+                "summary": "取得單一縣市",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/City"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/area": {
+            "get": {
+                "tags": [
+                    "縣市地區"
+                ],
+                "summary": "取得行政區",
+                "parameters": [
+                    {
+                        "name": "keyword",
+                        "description": "關鍵字搜尋(name)",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "page_size",
+                        "description": "單頁筆數",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "description": "當前頁次",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "orderby",
+                        "description": "排序",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "id:desc"
+                        }
+                    },
+                    {
+                        "name": "city_id",
+                        "description": "縣市ID",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "allOf": [
+                                                        {
+                                                            "$ref": "#/components/schemas/ResponseDataList"
+                                                        },
+                                                        {
+                                                            "properties": {
+                                                                "list": {
+                                                                    "items": {
+                                                                        "$ref": "#/components/schemas/Area"
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/area/{areaId}": {
+            "parameters": [
+                {
+                    "name": "areaId",
+                    "description": "行政區ID",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "integer",
+                        "example": 1
+                    }
+                }
+            ],
+            "get": {
+                "tags": [
+                    "縣市地區"
+                ],
+                "summary": "取得單一行政區",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/Area"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/mailinfo": {
+            "get": {
+                "tags": [
+                    "信件設定"
+                ],
+                "summary": "取得信件設定",
+                "parameters": [
+                    {
+                        "name": "keyword",
+                        "description": "關鍵字搜尋(name)",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "page_size",
+                        "description": "單頁筆數",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "description": "當前頁次",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "orderby",
+                        "description": "排序",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "id:desc"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "allOf": [
+                                                        {
+                                                            "$ref": "#/components/schemas/ResponseDataList"
+                                                        },
+                                                        {
+                                                            "properties": {
+                                                                "list": {
+                                                                    "items": {
+                                                                        "$ref": "#/components/schemas/Mailinfo"
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/mailinfo/{mailinfoId}": {
+            "parameters": [
+                {
+                    "name": "mailinfoId",
+                    "description": "信件ID",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
+                    }
+                }
+            ],
+            "patch": {
+                "tags": [
+                    "信件設定"
+                ],
+                "summary": "修改信件設定",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "信件名稱",
+                                        "example": "忘記密碼"
+                                    },
+                                    "subject": {
+                                        "type": "string",
+                                        "description": "信件主旨",
+                                        "example": "忘記密碼-驗證碼"
+                                    },
+                                    "fromname": {
+                                        "type": "string",
+                                        "description": "寄件人名稱",
+                                        "example": "王小明"
+                                    },
+                                    "repeatname": {
+                                        "type": "string",
+                                        "description": "回覆者名稱",
+                                        "example": "王大明"
+                                    },
+                                    "repeatmail": {
+                                        "type": "string",
+                                        "description": "回覆者信箱",
+                                        "format": "email"
+                                    },
+                                    "cc": {
+                                        "type": "string",
+                                        "description": "副本信箱，多人以“,”分隔",
+                                        "format": "email"
+                                    },
+                                    "bcc": {
+                                        "type": "string",
+                                        "description": "密件副本信箱，多人以“,”分隔",
+                                        "format": "email"
+                                    },
+                                    "content_json": {
+                                        "type": "string",
+                                        "description": "信件內容-前端物件JSON",
+                                        "example": "{}"
+                                    },
+                                    "content": {
+                                        "type": "string",
+                                        "description": "信件內容HTML",
+                                        "example": "<h1>忘記密碼-驗證碼</h1>"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/Mailinfo"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/mail_log": {
+            "get": {
+                "tags": [
+                    "信件紀錄"
+                ],
+                "summary": "取得信件發送紀錄",
+                "parameters": [
+                    {
+                        "name": "keyword",
+                        "description": "關鍵字搜尋",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "start_date",
+                        "description": "開始日期(send_datetime)",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "description": "結束日期(send_datetime)",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "allOf": [
+                                                        {
+                                                            "$ref": "#/components/schemas/ResponseDataList"
+                                                        },
+                                                        {
+                                                            "properties": {
+                                                                "list": {
+                                                                    "items": {
+                                                                        "$ref": "#/components/schemas/MailLog"
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/mail_log/{mailLogId}": {
+            "get": {
+                "tags": [
+                    "信件紀錄"
+                ],
+                "summary": "取得單一信件發送紀錄",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/MailLog"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/system/record_log": {
+            "get": {
+                "tags": [
+                    "系統相關"
+                ],
+                "summary": "取得系統日誌",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "allOf": [
+                                                        {
+                                                            "$ref": "#/components/schemas/ResponseDataList"
+                                                        },
+                                                        {
+                                                            "properties": {
+                                                                "list": {
+                                                                    "items": {
+                                                                        "$ref": "#/components/schemas/SystemLog"
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/system/viewcount": {
+            "get": {
+                "tags": [
+                    "系統相關"
+                ],
+                "summary": "取得瀏覽人數",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/Viewcount"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Response": {
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "description": "狀態訊息",
+                        "example": "success"
+                    },
+                    "code": {
+                        "type": "number",
+                        "description": "回傳狀態碼",
+                        "example": 200
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "操作訊息"
+                    },
+                    "data": {
+                        "type": "object"
+                    },
+                    "error": {
+                        "type": "object"
+                    }
+                }
+            },
+            "ResponseDataList": {
+                "properties": {
+                    "list": {
+                        "type": "array",
+                        "items": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "LoginToken": {
+                "properties": {
+                    "token": {
+                        "type": "string",
+                        "description": "登入Token"
+                    },
+                    "iat": {
+                        "type": "number",
+                        "description": "建立時間(Timestamp)"
+                    },
+                    "exp": {
+                        "type": "number",
+                        "description": "到期時間(Timestamp)"
+                    }
+                }
+            },
+            "Captcha": {
+                "properties": {
+                    "key": {
+                        "type": "string",
+                        "description": "驗證碼金鑰"
+                    },
+                    "img": {
+                        "type": "string",
+                        "description": "驗證碼圖片(Base64)"
+                    }
+                }
+            },
+            "FileStorage": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "檔案UUID",
+                        "format": "uuid"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "檔案名稱",
+                        "example": "測試檔案"
+                    },
+                    "mime": {
+                        "type": "string",
+                        "description": "檔案類型",
+                        "example": "image/jpeg"
+                    },
+                    "size": {
+                        "type": "integer",
+                        "description": "檔案大小",
+                        "example": 100
+                    },
+                    "url": {
+                        "type": "string",
+                        "description": "檔案網址",
+                        "example": "https://example.com"
+                    }
+                }
+            },
+            "City": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "縣市ID",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "縣市名稱",
+                        "example": "台南市"
+                    }
+                }
+            },
+            "Area": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "行政區ID",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "行政區名稱",
+                        "example": "永康區"
+                    },
+                    "detail": {
+                        "$ref": "#/components/schemas/Area.Detail"
+                    }
+                }
+            },
+            "Area.Detail": {
+                "properties": {
+                    "post_code": {
+                        "type": "string",
+                        "description": "郵遞區號",
+                        "example": "100"
+                    }
+                }
+            },
+            "Profile": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "人員ID",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "人員名稱",
+                        "example": "王小明"
+                    },
+                    "account": {
+                        "type": "string",
+                        "description": "人員帳號",
+                        "example": "admin"
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "人員信箱",
+                        "example": "admin@admin.com"
+                    },
+                    "phone": {
+                        "type": "string",
+                        "description": "聯絡電話",
+                        "example": "0912345678"
+                    },
+                    "role": {
+                        "$ref": "#/components/schemas/Profile.Role"
+                    }
+                }
+            },
+            "Profile.Role": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "群組ID",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "群組名稱",
+                        "example": "管理員"
+                    }
+                }
+            },
+            "RolePermission": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "權限ID",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "權限名稱",
+                        "example": "view user"
+                    },
+                    "action": {
+                        "type": "string",
+                        "description": "權限動作",
+                        "example": "view"
+                    }
+                }
+            },
+            "Company": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "公司ID",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "公司名稱",
+                        "example": "王小明物流有限公司"
+                    },
+                    "name_en": {
+                        "type": "string",
+                        "description": "公司名稱(英)",
+                        "example": "company"
+                    },
+                    "opendate": {
+                        "type": "string",
+                        "description": "成立時間",
+                        "example": "2020/01/01"
+                    },
+                    "invoice": {
+                        "type": "string",
+                        "description": "發票抬頭",
+                        "example": "發票抬頭"
+                    },
+                    "vatnumber": {
+                        "type": "string",
+                        "description": "統一編號",
+                        "example": "12345678"
+                    },
+                    "ceo": {
+                        "type": "string",
+                        "description": "負責人",
+                        "example": "王小明"
+                    },
+                    "tel": {
+                        "type": "string",
+                        "description": "公司電話",
+                        "example": "001234567"
+                    },
+                    "tel_ext": {
+                        "type": "string",
+                        "description": "分機",
+                        "example": "00"
+                    },
+                    "tel_service": {
+                        "type": "string",
+                        "description": "客服電話",
+                        "example": "001234567"
+                    },
+                    "fax": {
+                        "type": "string",
+                        "description": "傳真",
+                        "example": null
+                    },
+                    "phone": {
+                        "type": "string",
+                        "description": "聯絡電話",
+                        "example": "0912345678"
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "公司信箱",
+                        "example": "admin@example.com"
+                    },
+                    "address": {
+                        "type": "string",
+                        "description": "公司地址",
+                        "example": "台南市永康區00號"
+                    },
+                    "address_en": {
+                        "type": "string",
+                        "description": "公司地址(英)",
+                        "example": "Tainan City, No.0"
+                    },
+                    "service_time": {
+                        "type": "string",
+                        "description": "客服時間",
+                        "example": "08:00 ~ 17:00"
+                    },
+                    "sequence": {
+                        "type": "integer",
+                        "description": "排序",
+                        "example": 0
+                    },
+                    "city": {
+                        "type": "string",
+                        "description": "縣市",
+                        "$ref": "#/components/schemas/City"
+                    },
+                    "area": {
+                        "type": "string",
+                        "description": "行政區",
+                        "$ref": "#/components/schemas/Area"
+                    }
+                }
+            },
+            "User": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "人員ID",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "人員名稱",
+                        "example": "王小明"
+                    },
+                    "account": {
+                        "type": "string",
+                        "description": "人員帳號",
+                        "example": "admin"
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "人員信箱",
+                        "example": "admin@example.com"
+                    },
+                    "phone": {
+                        "type": "string",
+                        "description": "聯絡電話",
+                        "example": "0912345678"
+                    },
+                    "is_enable": {
+                        "type": "boolean",
+                        "description": "是否啟用"
+                    },
+                    "remark": {
+                        "type": "string",
+                        "description": "備註",
+                        "example": "備註"
+                    },
+                    "role": {
+                        "$ref": "#/components/schemas/User.Role"
+                    },
+                    "company": {
+                        "$ref": "#/components/schemas/User.Company"
+                    },
+                    "company_job": {
+                        "$ref": "#/components/schemas/User.CompanyJob"
+                    }
+                }
+            },
+            "User.Role": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "群組ID",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "群組名稱",
+                        "example": "管理員"
+                    }
+                }
+            },
+            "User.Company": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "公司ID",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "公司名稱",
+                        "example": "王小明物流有限公司"
+                    }
+                }
+            },
+            "User.CompanyJob": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "職稱ID",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "職稱名稱",
+                        "example": "主管"
+                    }
+                }
+            },
+            "Role": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "群組ID",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "description": "建立時間",
+                        "format": "date-time"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "群組名稱",
+                        "example": "管理者"
+                    },
+                    "permissions": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Role.Permission"
+                        }
+                    }
+                }
+            },
+            "Role.Permission": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "權限ID",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "權限名稱",
+                        "example": "view user"
+                    },
+                    "action": {
+                        "type": "string",
+                        "description": "權限動作",
+                        "example": "view"
+                    }
+                }
+            },
+            "Menu": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "菜單UUID",
+                        "format": "uuid"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "菜單名稱",
+                        "example": "最新公告"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "description": "菜單類別",
+                        "enum": [
+                            "dropdown",
+                            "link"
+                        ]
+                    },
+                    "childs": {
+                        "$ref": "#/components/schemas/Menu.Child"
+                    }
+                }
+            },
+            "Menu.Child": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "菜單UUID",
+                        "format": "uuid"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "菜單名稱",
+                        "example": "最新公告"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "description": "菜單類別",
+                        "enum": [
+                            "dropdown",
+                            "link"
+                        ]
+                    }
+                }
+            },
+            "MenuPermission": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "菜單UUID",
+                        "format": "uuid"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "菜單名稱",
+                        "example": "最新公告"
+                    },
+                    "permissions": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/MenuPermission.Permission"
+                        }
+                    }
+                }
+            },
+            "MenuPermission.Permission": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "權限ID",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "權限名稱",
+                        "example": "view user"
+                    },
+                    "action": {
+                        "type": "string",
+                        "description": "權限動作",
+                        "example": "view"
+                    },
+                    "display_name": {
+                        "type": "string",
+                        "description": "顯示名稱",
+                        "example": "讀取"
+                    }
+                }
+            },
+            "CompanyJob": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "職稱ID",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "職稱名稱",
+                        "example": "工程師"
+                    },
+                    "parent_job": {
+                        "$ref": "#/components/schemas/CompanyJob.ParentJob"
+                    },
+                    "sequence": {
+                        "type": "integer",
+                        "description": "排序"
+                    }
+                }
+            },
+            "CompanyJob.ParentJob": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "職稱ID",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "職稱名稱",
+                        "example": "工程師主管"
+                    },
+                    "parent_job": {
+                        "type": "object",
+                        "default": null
+                    },
+                    "sequence": {
+                        "type": "integer",
+                        "description": "排序"
+                    }
+                }
+            },
+            "PlatformAttribute": {
+                "properties": {
+                    "platform_attribute_key": {
+                        "type": "string",
+                        "description": "系統參數，key-value",
+                        "example": "value"
+                    }
+                }
+            },
+            "SystemLog": {
+                "properties": {
+                    "created_at": {
+                        "type": "string",
+                        "description": "建立時間",
+                        "format": "date-time"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "訊息描述",
+                        "example": "建立人員帳號"
+                    },
+                    "sourceip": {
+                        "type": "string",
+                        "description": "來源ip",
+                        "format": "ipv4"
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/SystemLog.User"
+                    }
+                }
+            },
+            "SystemLog.User": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "人員ID",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "人員名稱",
+                        "example": "系統管理員"
+                    },
+                    "account": {
+                        "type": "string",
+                        "description": "人員帳號",
+                        "example": "admin"
+                    }
+                }
+            },
+            "Viewcount": {
+                "properties": {
+                    "value": {
+                        "type": "integer",
+                        "description": "人數統計",
+                        "example": 100
+                    }
+                }
+            },
+            "Mailinfo": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "信件ID",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "信件名稱",
+                        "example": "忘記密碼"
+                    },
+                    "subject": {
+                        "type": "string",
+                        "description": "信件主旨",
+                        "example": "忘記密碼-驗證碼"
+                    },
+                    "fromname": {
+                        "type": "string",
+                        "description": "寄件者名稱",
+                        "example": "王小明"
+                    },
+                    "repeatname": {
+                        "type": "string",
+                        "description": "回覆者名稱",
+                        "example": "王大明"
+                    },
+                    "repeatmail": {
+                        "type": "string",
+                        "description": "回覆者信箱",
+                        "format": "email"
+                    },
+                    "cc": {
+                        "type": "string",
+                        "description": "副本信箱，多人以“,”分隔",
+                        "format": "email"
+                    },
+                    "bcc": {
+                        "type": "string",
+                        "description": "密件副本信箱，多人以“,”分隔",
+                        "format": "email"
+                    },
+                    "content_json": {
+                        "type": "string",
+                        "description": "信件內容-前端物件JSON",
+                        "example": "{}"
+                    },
+                    "content": {
+                        "type": "string",
+                        "description": "信件內容HTML",
+                        "example": "<h1>忘記密碼-驗證碼</h1>"
+                    }
+                }
+            },
+            "MailLog": {
+                "properties": {
+                    "from": {
+                        "type": "string",
+                        "description": "寄件人信箱",
+                        "format": "mail",
+                        "example": "user@mail.com"
+                    },
+                    "to": {
+                        "type": "string",
+                        "description": "收件人信箱",
+                        "format": "mail",
+                        "example": "user2@mail.com"
+                    },
+                    "cc": {
+                        "type": "string",
+                        "description": "副本信箱",
+                        "format": "mail",
+                        "example": "user3@mail.com"
+                    },
+                    "bcc": {
+                        "type": "string",
+                        "description": "密件副本信箱",
+                        "format": "mail",
+                        "example": "user4@mail.com"
+                    },
+                    "reply_to": {
+                        "type": "string",
+                        "description": "回覆信箱",
+                        "format": "mail",
+                        "example": "user5@mail.com"
+                    },
+                    "subject": {
+                        "type": "string",
+                        "description": "信件主旨",
+                        "example": "審核通過"
+                    },
+                    "send_datetime": {
+                        "type": "string",
+                        "description": "信件發送時間",
+                        "format": "date-time"
+                    },
+                    "content": {
+                        "type": "string",
+                        "description": "信件內容(HTML)",
+                        "example": "<h1>申請場地，審核通過</h1>"
+                    },
+                    "state": {
+                        "type": "string",
+                        "description": "發送狀態",
+                        "enum": [
+                            "success",
+                            "failed"
+                        ]
+                    },
+                    "state_text": {
+                        "type": "string",
+                        "description": "發送狀態文字",
+                        "example": "發送成功"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "token": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "security": [
+        {
+            "token": []
+        }
+    ]
+}

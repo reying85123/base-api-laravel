@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  app:
+    image: ${PROJECT_IMAGE_NAME}:${LARAVEL_ENV}-1.0
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: ${COMPOSE_PROJECT_NAME}_app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    env_file:
+      - ../.env
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    name: ${COMPOSE_PROJECT_NAME}_app_network
+    driver: bridge
+    external: true
